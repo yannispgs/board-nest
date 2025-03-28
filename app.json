@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "board-nest",
+    "slug": "board-nest",
+    "version": "1.0.0",
+    "newArchEnabled": true,
+    "scheme": "board-nest",
+    "platforms": [
+      "android"
+    ],
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "experiments": {
+      "tsconfigPaths": true
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "eac42e97-ccd1-46ff-a8ea-fd2a8ed1d415"
+      },
+      "router": {
+        "origin": false
+      }
+    },
+    "owner": "yannispgs"
+  }
+}

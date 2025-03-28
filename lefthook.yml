@@ -1,0 +1,8 @@
+# Refer for explanation to following link:
+# https://lefthook.dev/configuration/
+
+pre-commit:
+  commands:
+    lint:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: yarn lint {staged_files}
