@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import InplaceModal from '~/components/InplaceModal';
 import PlayerCardList from '~/components/PlayerCardList';
 import { api } from '~/convex/_generated/api';

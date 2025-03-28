@@ -1,12 +1,12 @@
+import { useConvex, useMutation, useQuery } from 'convex/react';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Button, Text, TouchableOpacity, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useConvex, useMutation, useQuery } from 'convex/react';
 import DropDownPicker from 'react-native-dropdown-picker';
 
+import GameCardList from '~/components/GameCardList';
 import InplaceModal from '~/components/InplaceModal';
 import { api } from '~/convex/_generated/api';
-import GameCardList from '~/components/GameCardList';
 
 /** TODO :
  * - make the Creation Game Modal prettier

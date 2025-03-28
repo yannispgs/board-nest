@@ -1,9 +1,8 @@
+import { ConvexProvider, ConvexReactClient } from 'convex/react';
 import { Stack } from 'expo-router/stack';
 
-import { ConvexProvider, ConvexReactClient } from 'convex/react';
-
-import { CONVEX_URL } from '~/utils/env';
 import '~/global.css';
+import { CONVEX_URL } from '~/utils/env';
 
 const convex = new ConvexReactClient(CONVEX_URL);
 

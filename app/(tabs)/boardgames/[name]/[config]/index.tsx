@@ -4,6 +4,7 @@ import { Stack, useLocalSearchParams, useNavigation } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert, Button, Text, TextInput, View } from 'react-native';
 
+import Line from '~/components/Line';
 import { api } from '~/convex/_generated/api';
 import { Id } from '~/convex/_generated/dataModel';
 import {
@@ -13,7 +14,6 @@ import {
   catanConfigCustomProps,
   scytheConfigCustomProps,
 } from '~/convex/models';
-import Line from '~/components/Line';
 import { configPropsType } from '~/types';
 import { checkType, convert } from '~/utils/configs';
 

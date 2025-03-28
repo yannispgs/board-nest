@@ -5,9 +5,7 @@
     "version": "1.0.0",
     "newArchEnabled": true,
     "scheme": "board-nest",
-    "platforms": [
-      "android"
-    ],
+    "platforms": ["android"],
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
@@ -15,9 +13,7 @@
     "experiments": {
       "tsconfigPaths": true
     },
-    "plugins": [
-      "expo-router"
-    ],
+    "plugins": ["expo-router"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -26,9 +22,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },

@@ -1,12 +1,12 @@
 import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
+import { GameStatuses } from '../types/enums';
 import {
   catanConfigSchema,
   overloadBaseConfigSchema,
   scytheConfigSchema,
 } from './models';
-import { GameStatuses } from '../types/enums';
 
 const schema = defineSchema({
   player: defineTable({

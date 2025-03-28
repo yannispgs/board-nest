@@ -1,9 +1,9 @@
+import { Link } from 'expo-router';
 import { Text, View } from 'react-native';
 
+import { PopulatedGame } from '~/convex/models';
 import { GameStatuses } from '~/types';
 import BoardgameIcon from './BoardgameIcon';
-import { PopulatedGame } from '~/convex/models';
-import { Link } from 'expo-router';
 
 /** TODO :
  * - Add a popover when clicking on the date to show the time (e.g. 21:45:27)

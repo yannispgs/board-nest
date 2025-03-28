@@ -1,9 +1,9 @@
+import { useMutation, useQuery } from 'convex/react';
 import { useState } from 'react';
 import { Button, Image, Text, TouchableOpacity, View } from 'react-native';
-import { useQuery, useMutation } from 'convex/react';
 
-import { api } from '~/convex/_generated/api';
 import InplaceModal from '~/components/InplaceModal';
+import { api } from '~/convex/_generated/api';
 import PlayerAvatar from './PlayerAvatar';
 
 // TODO :

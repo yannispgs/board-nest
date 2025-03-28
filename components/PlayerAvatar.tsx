@@ -1,6 +1,6 @@
-import { Text, View } from 'react-native';
 import { generateColorRGB } from '@marko19907/string-to-color';
 import parse from 'color-parse';
+import { Text, View } from 'react-native';
 
 import { getInitials } from '~/utils';
 

@@ -1,17 +1,17 @@
+import { useMutation, useQuery } from 'convex/react';
+import { Audio } from 'expo-av';
+import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Button, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
-import { Audio } from 'expo-av';
-import { useMutation, useQuery } from 'convex/react';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import DropDownPicker from 'react-native-dropdown-picker';
 import rotate from 'rotate-array';
 
-import type { Id } from '~/convex/_generated/dataModel';
-import { api } from '~/convex/_generated/api';
 import BoardgameIcon from '~/components/BoardgameIcon';
-import PlayerCarousel from '~/components/PlayerCarousel';
 import InplaceModal from '~/components/InplaceModal';
+import PlayerCarousel from '~/components/PlayerCarousel';
+import { api } from '~/convex/_generated/api';
+import type { Id } from '~/convex/_generated/dataModel';
 import { GameStatuses } from '~/types';
 import { TURN_DURATION } from '~/utils/env';
 

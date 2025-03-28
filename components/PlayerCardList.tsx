@@ -1,7 +1,7 @@
-import { ScrollView } from 'react-native';
 import { useQuery } from 'convex/react';
-import { api } from '~/convex/_generated/api';
+import { ScrollView } from 'react-native';
 
+import { api } from '~/convex/_generated/api';
 import PlayerCard from './PlayerCard';
 
 /** TODO :
