@@ -8,13 +8,6 @@ import GameCardList from '~/components/GameCardList';
 import InplaceModal from '~/components/InplaceModal';
 import { api } from '~/convex/_generated/api';
 
-/** TODO :
- * - make the Creation Game Modal prettier
- * - make the Creation Game Modal height-responsive
- * - move the modal to a dedicated component with linked buttons
- * - make the player dropdown menu when creating a game scrollable
- */
-
 const cardBadgeFontSize = 12;
 
 export default function GamesHome() {

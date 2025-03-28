@@ -4,10 +4,6 @@ import { Text, View } from 'react-native';
 
 import { getInitials } from '~/utils';
 
-/* TODO :
- * - arrondir les cercles (sur Android on voit les angles pour les couleurs foncées)
- **/
-
 type Props = {
   name: string;
 };

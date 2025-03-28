@@ -4,12 +4,6 @@ import { ScrollView } from 'react-native';
 import { api } from '~/convex/_generated/api';
 import GameCard from './GameCard';
 
-/** TODO :
- * - Replace all Card List components by a generic CardList Component
- * - Sort by Date/Game/Player/Status
- * - Filter by Date/Game/Player/Status
- */
-
 export default function GameCardList() {
   const games = useQuery(api.game.listPopulated, {});
 

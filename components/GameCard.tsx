@@ -5,10 +5,6 @@ import { PopulatedGame } from '~/convex/models';
 import { GameStatuses } from '~/types';
 import BoardgameIcon from './BoardgameIcon';
 
-/** TODO :
- * - Add a popover when clicking on the date to show the time (e.g. 21:45:27)
- */
-
 type Props = {
   game: PopulatedGame;
 };

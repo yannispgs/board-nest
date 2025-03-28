@@ -4,11 +4,6 @@ import { ScrollView } from 'react-native';
 import { api } from '~/convex/_generated/api';
 import PlayerCard from './PlayerCard';
 
-/** TODO :
- * - Replace all Card List components by a generic CardList Component
- * - Make that way prettier
- */
-
 export default function PlayerCardList() {
   const players = useQuery(api.player.list, {});
 

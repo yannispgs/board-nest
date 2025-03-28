@@ -6,11 +6,6 @@ import InplaceModal from '~/components/InplaceModal';
 import { api } from '~/convex/_generated/api';
 import PlayerAvatar from './PlayerAvatar';
 
-// TODO :
-// - déplacer la modale et toute les fonctions associées (validation, création, ...) dans un composant à part
-// - quand la modale est affichée, cliquer en dehors de celle-ci la ferme
-// - modifier un Joueur (quand il y aura au moins 1 propriété modifiable)
-
 type Props = {
   name: string;
 };

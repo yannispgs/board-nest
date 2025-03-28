@@ -13,13 +13,6 @@ import InplaceModal from '~/components/InplaceModal';
 import PlayerCardList from '~/components/PlayerCardList';
 import { api } from '~/convex/_generated/api';
 
-/* TODO :
- * - déplacer la modale et toute les fonctions associées (validation, création, ...) dans un composant à part
- * - quand la modale est affichée, cliquer en dehors de celle-ci la ferme
- * - choisir l'avatar de son choix parmi une liste possible ou en utilisant une image perso
- * - modifier les Joueurs existants (quand il y aura des propriétés modifiables)
- */
-
 const playerNameMaxLength = 20;
 
 export default function Tab() {

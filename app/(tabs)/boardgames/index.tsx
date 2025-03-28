@@ -4,13 +4,6 @@ import { ScrollView, View } from 'react-native';
 import BoardgameCard from '~/components/BoardgameCard';
 import { api } from '~/convex/_generated/api';
 
-/** TODO :
- * - Replace all Card List components by a generic CardList Component
- * - swipe to the left to delete an element
- * - display a loading spinner while fetching data
- * - display an error message if the fetch failed
- */
-
 export default function BoardgamesHome() {
   const boardgames = useQuery(api.boardgame.list, {});
 
