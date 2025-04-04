@@ -1,2 +1,6 @@
 convex/_generated/
 node_modules/
+android/
+.expo/
+ios/
+.yarn
