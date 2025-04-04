@@ -2,7 +2,14 @@ import { useMutation, useQuery } from 'convex/react';
 import { Audio } from 'expo-av';
 import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Button, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Button,
+  ImageBackground,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import DropDownPicker from 'react-native-dropdown-picker';
 import rotate from 'rotate-array';
@@ -21,6 +28,15 @@ beepSound.setVolumeAsync(0.65);
 
 const ringSound = new Audio.Sound();
 ringSound.loadAsync(require('~/assets/sounds/ring.mp3'));
+
+const bgStyle = {
+  paused: {
+    opacity: 0.25,
+  },
+  playing: {
+    opacity: 0,
+  },
+};
 
 export default function GameDetails() {
   const { id: gameId } = useLocalSearchParams<{ id: string }>();
@@ -139,35 +155,39 @@ export default function GameDetails() {
             className="self-center"
             onPress={handleClockClick}
             onLongPress={handleClockLongPress}>
-            <CountdownCircleTimer
-              key={trigger}
-              isPlaying={isTimerPlaying}
-              duration={currentTurnDuration}
-              colors={['#128700', '#C6C000', '#cf6800', '#A30000']}
-              colorsTime={[
-                currentTurnDuration,
-                currentTurnDuration / 2,
-                currentTurnDuration / 4,
-                0,
-              ]}
-              onUpdate={handleTimerUpdate}
-              onComplete={handleTimerEnd}>
-              {({ remainingTime, color }) => (
-                <View className="h-3/5 flex-col justify-between">
-                  <Text className="text-center text-base text-gray-600">
-                    {game.currentPlayer?.name}
-                  </Text>
-                  <Text
-                    className="value text-center text-4xl font-bold"
-                    style={{ color }}>
-                    {renderTime(remainingTime)}
-                  </Text>
-                  <Text className="text-center text-base text-gray-600">
-                    seconds
-                  </Text>
-                </View>
-              )}
-            </CountdownCircleTimer>
+            <ImageBackground
+              source={require('~/assets/images/pause.png')}
+              imageStyle={isTimerPlaying ? bgStyle.playing : bgStyle.paused}>
+              <CountdownCircleTimer
+                key={trigger}
+                isPlaying={isTimerPlaying}
+                duration={currentTurnDuration}
+                colors={['#128700', '#C6C000', '#cf6800', '#A30000']}
+                colorsTime={[
+                  currentTurnDuration,
+                  currentTurnDuration / 2,
+                  currentTurnDuration / 4,
+                  0,
+                ]}
+                onUpdate={handleTimerUpdate}
+                onComplete={handleTimerEnd}>
+                {({ remainingTime, color }) => (
+                  <View className="h-3/5 flex-col justify-between">
+                    <Text className="text-center text-base text-gray-600">
+                      {game.currentPlayer?.name}
+                    </Text>
+                    <Text
+                      className="value text-center text-4xl font-bold"
+                      style={{ color }}>
+                      {renderTime(remainingTime)}
+                    </Text>
+                    <Text className="text-center text-base text-gray-600">
+                      seconds
+                    </Text>
+                  </View>
+                )}
+              </CountdownCircleTimer>
+            </ImageBackground>
           </TouchableOpacity>
 
           <InplaceModal visible={isClockUpdateModalVisible} id="clock-update">
