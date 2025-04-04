@@ -38,6 +38,9 @@ export default function GameDetails() {
   const [turnDuration, setTurnDuration] = useState(TURN_DURATION);
   const [currentTurnDuration, setCurrentTurnDuration] = useState(turnDuration);
 
+  const [isClockUpdateModalVisible, setIsClockUpdateModalVisible] =
+    useState(false);
+
   const [isGameEndModalVisible, setIsGameEndModalVisible] = useState(false);
   const [winnerPickerOpen, setWinnerPickerOpen] = useState(false);
   const [winnerPickerValue, setWinnerPickerValue] = useState('');
@@ -57,7 +60,6 @@ export default function GameDetails() {
   };
 
   const handleTimerUpdate = (remainingTime: number) => {
-    console.log('remainingTime', remainingTime);
     if (remainingTime <= 10) {
       beepSound.playFromPositionAsync(0);
     }
@@ -69,6 +71,14 @@ export default function GameDetails() {
 
   const handleClockClick = () => {
     setIsTimerPlaying(!isTimerPlaying);
+  };
+
+  const handleClockLongPress = () => {
+    setIsClockUpdateModalVisible(true);
+  };
+
+  const handleClockUpdateModalClose = () => {
+    setIsClockUpdateModalVisible(false);
   };
 
   const handleGameEndModalOpen = () => {
@@ -125,7 +135,10 @@ export default function GameDetails() {
               )}
             />
           </View>
-          <TouchableOpacity className="self-center" onPress={handleClockClick}>
+          <TouchableOpacity
+            className="self-center"
+            onPress={handleClockClick}
+            onLongPress={handleClockLongPress}>
             <CountdownCircleTimer
               key={trigger}
               isPlaying={isTimerPlaying}
@@ -156,6 +169,45 @@ export default function GameDetails() {
               )}
             </CountdownCircleTimer>
           </TouchableOpacity>
+
+          <InplaceModal visible={isClockUpdateModalVisible} id="clock-update">
+            <View className="flex-col justify-between gap-y-4">
+              <View>
+                <Text className="text-center text-lg">
+                  Update the turn duration
+                </Text>
+              </View>
+              <View className="flex-row justify-center">
+                <TextInput
+                  placeholder="seconds"
+                  defaultValue={turnDuration.toString()}
+                  onEndEditing={(e) =>
+                    setTurnDuration(parseInt(e.nativeEvent.text, 10))
+                  }
+                />
+                <Text className="text-small"> sec</Text>
+              </View>
+              <View className="flex-row justify-evenly">
+                <View>
+                  <Button
+                    title="Close"
+                    onPress={() => {
+                      setTurnDuration(currentTurnDuration);
+                      handleClockUpdateModalClose();
+                    }}
+                  />
+                </View>
+                <View>
+                  <Button
+                    title="Confirm"
+                    disabled={turnDuration === currentTurnDuration}
+                    onPress={handleClockUpdateModalClose}
+                  />
+                </View>
+              </View>
+            </View>
+          </InplaceModal>
+
           <View id="button-container" className="flex-row justify-center">
             <TouchableOpacity
               className="h-10 justify-center rounded-full bg-gray-300 px-5"
@@ -163,8 +215,8 @@ export default function GameDetails() {
               <Text className="text-center text-xl">Next player</Text>
             </TouchableOpacity>
           </View>
-          <View className="flex-row justify-between">
-            <View className="flex-col justify-center">
+          <View className="flex-row justify-center">
+            {/* <View className="flex-col justify-center">
               <View className="flex-row">
                 <Text className="text-small">Turn duration = </Text>
                 <View className="w-auto">
@@ -179,7 +231,7 @@ export default function GameDetails() {
                 </View>
                 <Text className="text-small"> sec</Text>
               </View>
-            </View>
+            </View> */}
             <View>
               <TouchableOpacity
                 className="h-10 justify-center rounded-md bg-green-400 px-5"
