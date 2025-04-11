@@ -84,7 +84,6 @@ export default function BoardgameConfig() {
   });
 
   if (!config || !Object.keys(configProps).length) {
-    console.log('CONFIG EMPTY, RELOADING...');
     return <Text>Loading...</Text>;
   }
 
@@ -174,6 +173,7 @@ export default function BoardgameConfig() {
               ]);
             } catch (error) {
               console.error(error);
+
               Alert.alert(
                 'Error',
                 'An error occurred while updating the config. Check the console logs'

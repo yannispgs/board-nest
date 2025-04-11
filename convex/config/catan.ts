@@ -48,6 +48,7 @@ export const create = mutation({
       name: args.name,
       boardgame: args.boardgame,
       catan: args.catan,
+      turnDuration: args.turnDuration,
     });
   },
 });

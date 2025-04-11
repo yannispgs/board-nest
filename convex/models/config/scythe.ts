@@ -9,6 +9,7 @@ export interface ScytheConfigCustomProps {
   entier: bigint;
   reel: number;
   vrai: boolean;
+  turnDuration: bigint;
 }
 
 export const scytheConfigCustomProps: {
@@ -17,12 +18,14 @@ export const scytheConfigCustomProps: {
   entier: keyof TypeMap;
   reel: keyof TypeMap;
   vrai: keyof TypeMap;
+  turnDuration: keyof TypeMap;
 } = {
   scythe: 'string',
   texte: 'string',
   entier: 'integer',
   reel: 'number',
   vrai: 'boolean',
+  turnDuration: 'integer',
 };
 
 export const scytheConfigCustomSchema = {
@@ -31,6 +34,7 @@ export const scytheConfigCustomSchema = {
   entier: v.int64(),
   reel: v.number(),
   vrai: v.boolean(),
+  turnDuration: v.int64(),
 };
 
 export const scytheConfigSchema =

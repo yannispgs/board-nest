@@ -6,5 +6,6 @@ export const overloadBaseConfigSchema = <T>(props: {
 }) => ({
   name: v.string(),
   boardgame: v.id('boardgame'),
+  turnDuration: v.int64(),
   ...props,
 });
