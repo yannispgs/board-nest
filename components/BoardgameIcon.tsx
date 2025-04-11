@@ -6,9 +6,9 @@ type Props = {
 };
 
 const boardgameIconMapping: { [key: string]: any } = {
-  Catan: require('../assets/icons/boardgames/catan.png'),
-  Scythe: require('../assets/icons/boardgames/scythe.png'),
-  'Terraforming Mars': require('../assets/icons/boardgames/terraforming_mars.png'),
+  Catan: require('~/assets/icons/boardgames/catan.png'),
+  Scythe: require('~/assets/icons/boardgames/scythe.png'),
+  'Terraforming Mars': require('~/assets/icons/boardgames/terraforming_mars.png'),
 };
 
 export default function BoardgameIcon({
