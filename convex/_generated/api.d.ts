@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as boardgame from "../boardgame.js";
+import type * as config_all from "../config/all.js";
 import type * as config_catan from "../config/catan.js";
 import type * as config_scythe from "../config/scythe.js";
 import type * as game from "../game.js";
@@ -35,6 +36,7 @@ import type * as player from "../player.js";
  */
 declare const fullApi: ApiFromModules<{
   boardgame: typeof boardgame;
+  "config/all": typeof config_all;
   "config/catan": typeof config_catan;
   "config/scythe": typeof config_scythe;
   game: typeof game;

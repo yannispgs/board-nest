@@ -52,6 +52,7 @@ export const create = mutation({
       entier: args.entier,
       reel: args.reel,
       vrai: args.vrai,
+      turnDuration: args.turnDuration,
     });
   },
 });

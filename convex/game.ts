@@ -23,6 +23,7 @@ const populateGame = async (ctx: QueryCtx, game: Doc<'game'>) => {
   const players = await Promise.all(
     game.players.map(async (player) => (await ctx.db.get(player))!)
   );
+  const config = (await ctx.db.get(game.config))!;
   const winner = game.winner ? await ctx.db.get(game.winner) : null;
 
   return {
@@ -31,6 +32,7 @@ const populateGame = async (ctx: QueryCtx, game: Doc<'game'>) => {
     currentPlayer,
     players,
     winner,
+    config,
   };
 };
 
@@ -64,12 +66,14 @@ export const create = mutation({
   args: {
     boardgame: v.id('boardgame'),
     players: v.array(v.id('player')),
+    config: v.union(v.id('catanConfig'), v.id('scytheConfig')),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert('game', {
       boardgame: args.boardgame,
       players: args.players,
       currentPlayer: args.players[0],
+      config: args.config,
       startDate: new Date().toISOString(),
       status: GameStatuses.ONGOING,
       round: BigInt(1),

@@ -4,6 +4,7 @@ import { v } from 'convex/values';
 import { GameStatuses } from '../types/enums';
 import {
   catanConfigSchema,
+  configId,
   overloadBaseConfigSchema,
   scytheConfigSchema,
 } from './models';
@@ -31,6 +32,7 @@ const schema = defineSchema({
     round: v.int64(),
     turn: v.int64(),
     currentPlayer: v.id('player'),
+    config: configId,
     winner: v.optional(v.id('player')),
   }),
 });

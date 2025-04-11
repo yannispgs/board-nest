@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from 'convex/react';
 import { Audio } from 'expo-av';
 import { useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   ImageBackground,
@@ -20,7 +20,6 @@ import PlayerCarousel from '~/components/PlayerCarousel';
 import { api } from '~/convex/_generated/api';
 import type { Id } from '~/convex/_generated/dataModel';
 import { GameStatuses } from '~/types';
-import { TURN_DURATION } from '~/utils/env';
 
 const beepSound = new Audio.Sound();
 beepSound.loadAsync(require('~/assets/sounds/beep.mp3'));
@@ -47,17 +46,25 @@ export default function GameDetails() {
     id: gameId as Id<'game'>,
   });
 
-  // Update the Trigger to restart the timer
-  // https://www.npmjs.com/package/react-native-countdown-circle-timer#restart-timer-at-any-given-time
-  const [trigger, setTrigger] = useState(0);
+  const config = useQuery(
+    api.config.all.get,
+    game?.config
+      ? {
+          name: game?.config?.name,
+          boardgame: game?.boardgame.name,
+        }
+      : 'skip'
+  );
+
   const [isTimerPlaying, setIsTimerPlaying] = useState(true);
-  const [turnDuration, setTurnDuration] = useState(TURN_DURATION);
-  const [currentTurnDuration, setCurrentTurnDuration] = useState(turnDuration);
 
-  const [isClockUpdateModalVisible, setIsClockUpdateModalVisible] =
-    useState(false);
+  const [turnDuration, setTurnDuration] = useState<number>();
+  const [newTurnDuration, setNewTurnDuration] = useState<number | null>(null);
 
-  const [isGameEndModalVisible, setIsGameEndModalVisible] = useState(false);
+  const [activeModal, setActiveModal] = useState<
+    null | 'clockUpdate' | 'gameEnd'
+  >(null);
+
   const [winnerPickerOpen, setWinnerPickerOpen] = useState(false);
   const [winnerPickerValue, setWinnerPickerValue] = useState('');
   const winnerPickerItems = game?.players.map((p) => ({
@@ -65,18 +72,26 @@ export default function GameDetails() {
     value: p._id,
   }));
 
+  useEffect(() => {
+    if (config?.turnDuration) {
+      setTurnDuration(Number(config.turnDuration));
+    }
+  }, [config]);
+
   if (!game) {
     return <Text>Game not found</Text>;
   }
 
+  if (!game.config || !turnDuration) {
+    return <Text>Game is loading</Text>;
+  }
+
   const handleTurnEnd = async () => {
     await endPlayerTurnFunction({ id: game._id });
-    setTrigger(trigger + 1);
-    setCurrentTurnDuration(turnDuration);
   };
 
   const handleTimerUpdate = (remainingTime: number) => {
-    if (remainingTime <= 10) {
+    if (remainingTime <= 10 && remainingTime > 0) {
       beepSound.playFromPositionAsync(0);
     }
   };
@@ -90,22 +105,18 @@ export default function GameDetails() {
   };
 
   const handleClockLongPress = () => {
-    setIsClockUpdateModalVisible(true);
-  };
-
-  const handleClockUpdateModalClose = () => {
-    setIsClockUpdateModalVisible(false);
+    setActiveModal('clockUpdate');
   };
 
   const handleGameEndModalOpen = () => {
-    setIsGameEndModalVisible(true);
+    setActiveModal('gameEnd');
   };
 
   const handleGameEndModalClose = () => {
     setWinnerPickerValue('');
     setWinnerPickerOpen(false);
 
-    setIsGameEndModalVisible(false);
+    setActiveModal(null);
   };
 
   const handleGameEnd = async (winner: Id<'player'>) => {
@@ -159,14 +170,14 @@ export default function GameDetails() {
               source={require('~/assets/images/pause.png')}
               imageStyle={isTimerPlaying ? bgStyle.playing : bgStyle.paused}>
               <CountdownCircleTimer
-                key={trigger}
+                key={game.turn}
                 isPlaying={isTimerPlaying}
-                duration={currentTurnDuration}
+                duration={turnDuration}
                 colors={['#128700', '#C6C000', '#cf6800', '#A30000']}
                 colorsTime={[
-                  currentTurnDuration,
-                  currentTurnDuration / 2,
-                  currentTurnDuration / 4,
+                  turnDuration,
+                  turnDuration / 2,
+                  turnDuration / 4,
                   0,
                 ]}
                 onUpdate={handleTimerUpdate}
@@ -190,7 +201,9 @@ export default function GameDetails() {
             </ImageBackground>
           </TouchableOpacity>
 
-          <InplaceModal visible={isClockUpdateModalVisible} id="clock-update">
+          <InplaceModal
+            visible={activeModal === 'clockUpdate'}
+            id="clock-update">
             <View className="flex-col justify-between gap-y-4">
               <View>
                 <Text className="text-center text-lg">
@@ -201,9 +214,10 @@ export default function GameDetails() {
                 <TextInput
                   placeholder="seconds"
                   defaultValue={turnDuration.toString()}
-                  onEndEditing={(e) =>
-                    setTurnDuration(parseInt(e.nativeEvent.text, 10))
-                  }
+                  onEndEditing={(e) => {
+                    const parsedValue = parseInt(e.nativeEvent.text, 10);
+                    setNewTurnDuration(isNaN(parsedValue) ? null : parsedValue);
+                  }}
                 />
                 <Text className="text-small"> sec</Text>
               </View>
@@ -212,16 +226,22 @@ export default function GameDetails() {
                   <Button
                     title="Close"
                     onPress={() => {
-                      setTurnDuration(currentTurnDuration);
-                      handleClockUpdateModalClose();
+                      setNewTurnDuration(null);
+                      setActiveModal(null);
                     }}
                   />
                 </View>
                 <View>
                   <Button
                     title="Confirm"
-                    disabled={turnDuration === currentTurnDuration}
-                    onPress={handleClockUpdateModalClose}
+                    disabled={
+                      !newTurnDuration || newTurnDuration === turnDuration
+                    }
+                    onPress={() => {
+                      setTurnDuration(newTurnDuration!);
+                      setNewTurnDuration(null);
+                      setActiveModal(null);
+                    }}
                   />
                 </View>
               </View>
@@ -260,7 +280,7 @@ export default function GameDetails() {
               </TouchableOpacity>
             </View>
           </View>
-          <InplaceModal visible={isGameEndModalVisible} id="game-end">
+          <InplaceModal visible={activeModal === 'gameEnd'} id="game-end">
             <View className="flex-col justify-between gap-y-4">
               <View>
                 <Text className="text-center text-lg">Who is the winner ?</Text>

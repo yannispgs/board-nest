@@ -27,6 +27,17 @@ export default function GamesHome() {
     })
   );
 
+  const [configPickerOpen, setConfigPickerOpen] = useState(false);
+  const [configPickerValue, setConfigPickerValue] = useState('Default');
+  const allConfigs = useQuery(api.config.all.list, {})?.map((config) => ({
+    label: config.name,
+    value: config.name,
+    boardgame: config.boardgame,
+  }));
+  const configPickerItems = allConfigs?.filter(
+    (config) => config.boardgame === gamePickerValue
+  );
+
   const [playerPickerOpen, setPlayerPickerOpen] = useState(false);
   const [playerPickerValue, setPlayerPickerValue] = useState([]);
   const playerPickerItems = useQuery(api.player.list, {})?.map((player) => ({
@@ -46,6 +57,10 @@ export default function GamesHome() {
               (await convex.query(api.player.get, { name: playerName }))!._id
           )
         ),
+        config: (await convex.query(api.config.all.get, {
+          boardgame: gamePickerValue,
+          name: configPickerValue,
+        }))!._id,
       });
 
       router.push(`/games/${newGameId}`);
@@ -69,6 +84,9 @@ export default function GamesHome() {
     setGamePickerValue('');
     setGamePickerOpen(false);
 
+    setConfigPickerValue('Default');
+    setConfigPickerOpen(false);
+
     setPlayerPickerValue([]);
     setPlayerPickerOpen(false);
 
@@ -90,7 +108,7 @@ export default function GamesHome() {
       </View>
 
       <InplaceModal visible={isCreateModalVisible}>
-        <View className="h-[300] flex-col justify-between">
+        <View className="h-[375] flex-col justify-between">
           <View id="picker-boardgame" className="z-30 flex-none">
             <Text className="mb-2 text-center text-lg">Boardgame</Text>
             <DropDownPicker
@@ -100,6 +118,7 @@ export default function GamesHome() {
               value={gamePickerValue}
               setOpen={setGamePickerOpen}
               onOpen={() => {
+                setConfigPickerOpen(false);
                 setPlayerPickerOpen(false);
               }}
               setValue={setGamePickerValue}
@@ -107,6 +126,30 @@ export default function GamesHome() {
               closeAfterSelecting={true}
             />
           </View>
+
+          <View id="picker-config" className="z-20 flex-none">
+            <Text className="mb-2 mt-6 text-center text-lg">Config</Text>
+            {(configPickerItems?.length === 0 && (
+              <Text className="text-center text-sm text-red-500">
+                No config available for this boardgame
+              </Text>
+            )) || (
+              <DropDownPicker
+                placeholder="Select the config"
+                open={configPickerOpen}
+                items={configPickerItems!}
+                value={configPickerValue}
+                setOpen={setConfigPickerOpen}
+                onOpen={() => {
+                  setGamePickerOpen(false);
+                  setPlayerPickerOpen(false);
+                }}
+                setValue={setConfigPickerValue}
+                dropDownDirection="BOTTOM"
+              />
+            )}
+          </View>
+
           <View id="picker-players" className="z-100 flex-1">
             <Text className="mb-2 mt-6 text-center text-lg">Player(s)</Text>
             <DropDownPicker
@@ -122,12 +165,14 @@ export default function GamesHome() {
               value={playerPickerValue}
               setOpen={setPlayerPickerOpen}
               onOpen={() => {
+                setConfigPickerOpen(false);
                 setGamePickerOpen(false);
               }}
               setValue={setPlayerPickerValue}
               dropDownDirection="BOTTOM"
             />
           </View>
+
           <View className="w-100% z-10 flex-row justify-evenly">
             <Button title="Close" onPress={handleModalClose} />
             <Button
