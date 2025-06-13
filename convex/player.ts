@@ -35,6 +35,26 @@ export const create = mutation({
   },
 });
 
+export const update = mutation({
+  args: {
+    id: v.id('player'),
+    newName: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const player = await ctx.db.get(args.id);
+
+    const existingPlayer = await ctx.db
+      .query('player')
+      .withIndex('by_name', (p) => p.eq('name', args.newName))
+      .unique();
+
+    if (existingPlayer && existingPlayer._id !== player!._id) {
+      throw new Error('A player with this name already exists');
+    }
+    await ctx.db.patch(args.id, { name: args.newName });
+  },
+});
+
 export const remove = mutation({
   args: {
     id: v.id('player'),

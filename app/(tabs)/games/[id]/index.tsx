@@ -14,7 +14,7 @@ import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
 import DropDownPicker from 'react-native-dropdown-picker';
 import rotate from 'rotate-array';
 
-import BoardgameIcon from '~/components/BoardgameIcon';
+import BoardgameIcon from '~/components/Icons';
 import InplaceModal from '~/components/InplaceModal';
 import PlayerCarousel from '~/components/PlayerCarousel';
 import { api } from '~/convex/_generated/api';
