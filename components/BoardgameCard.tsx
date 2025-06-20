@@ -1,7 +1,7 @@
 import { Link } from 'expo-router';
 import { Text, View } from 'react-native';
 
-import BoardgameIcon from './BoardgameIcon';
+import BoardgameIcon from '~/components/Icons';
 
 type Props = {
   boardgame: string;

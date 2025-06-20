@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 
 import { PopulatedGame } from '~/convex/models';
 import { GameStatuses } from '~/types';
-import BoardgameIcon from './BoardgameIcon';
+import BoardgameIcon from '~/components/Icons';
 
 type Props = {
   game: PopulatedGame;
