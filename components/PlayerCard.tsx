@@ -51,7 +51,7 @@ export default function PlayerCard({ name }: Props) {
       ) {
         setNameExists(true);
       } else {
-        console.error('Error deleting player:', error);
+        console.error('Error updating player:', error);
         Alert.alert(
           'Unknown error',
           'An unknown error has occurred. Check the console logs to have more details.'
